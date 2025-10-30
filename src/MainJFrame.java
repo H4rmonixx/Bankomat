@@ -1,6 +1,7 @@
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
@@ -16,12 +17,14 @@ public class MainJFrame extends javax.swing.JFrame {
         
         this.account = null;
         this.mainPanel.setLayout(new java.awt.CardLayout());
+        this.mainPanel.add(this.infoPanel, "info");
         this.mainPanel.add(this.loginPanel, "login");
         this.mainPanel.add(this.indexPanel, "index");
-        this.mainPanel.add(this.withdrawPanel1, "withdraw1");
+        this.mainPanel.add(this.balancePanel, "balance");
+        this.mainPanel.add(this.withdraw1Panel, "withdraw1");
         
         CardLayout cl = (CardLayout) this.mainPanel.getLayout();
-        cl.show(this.mainPanel, "withdraw1");
+        cl.show(this.mainPanel, "login");
     }
 
     @SuppressWarnings("unchecked")
@@ -167,10 +170,21 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel indexPanelLabelAccount;
     private javax.swing.JLabel indexPanelLabelOwner;
     
-    private javax.swing.JPanel withdrawPanel1;
-    private javax.swing.JButton withdrawPanel1BtnWyplac;
-    private javax.swing.JLabel withdrawPanel1LabelKwota;
-    private javax.swing.JTextField withdrawPanel1TextFieldKwota;
+    private javax.swing.JPanel withdraw1Panel;
+    private javax.swing.JButton withdraw1PanelBtnNext;
+    private javax.swing.JLabel withdraw1PanelLabelKwota;
+    private javax.swing.JTextField withdraw1PanelTextFieldKwota;
+    
+    private javax.swing.JPanel infoPanel;
+    private javax.swing.JButton infoPanelBtnEnd;
+    private javax.swing.JLabel infoPanelLabelDesc;
+    private javax.swing.JLabel infoPanelLabelInfo;
+    
+    private javax.swing.JPanel balancePanel;
+    private javax.swing.JButton balancePanelBtnContinue;
+    private javax.swing.JButton balancePanelBtnEnd;
+    private javax.swing.JLabel balancePanelLabelBalance;
+    private javax.swing.JLabel balancePanelLabelTitle;
     
     private BankAccount account;
     
@@ -197,17 +211,60 @@ public class MainJFrame extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Wystapił błąd z bazą danych!");
-            return;
+            systemExit();
         }
         
         if(account != null){
             this.indexPanelLabelOwner.setText("Cześć " + this.account.imie + " " + this.account.nazwisko + "!");
             this.indexPanelLabelAccount.setText("Konto: " + this.account.nr_konta);
-            CardLayout cl = (CardLayout) this.mainPanel.getLayout();
-            cl.show(this.mainPanel, "index");
+            changeScene("index");
         } else {
             JOptionPane.showMessageDialog(this, "Nieprawidłowy nr karty lub pin!");
         }
+        
+    }
+    
+    private void tryWithdraw(){
+        String s = this.withdraw1PanelTextFieldKwota.getText();
+        BigDecimal x = new BigDecimal(s);
+        if(s.length() == 0 || x.compareTo(new BigDecimal("0")) == 0){
+            JOptionPane.showMessageDialog(this, "Podaj poprawną kwotę!");
+            return;
+        }
+        if(x.compareTo(this.account.saldo) > 0){
+            showInfoScene("Nie udalo sie wyplacic z konta!", "Podana kwota przekracza twoje saldo!");
+            return;
+        }
+        
+        String sql = "UPDATE konta SET saldo = saldo - ?  WHERE nr_konta = ?";
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:./bank", "sa", "");
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setBigDecimal(1, x);
+            ps.setString(2, this.account.nr_konta);
+            if(ps.executeUpdate() > 0){
+                showWithdraw2Scene(x);
+            } else {
+                showInfoScene("Nie udalo sie wyplacic z konta!", "Blad aktualizacji danych!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Wystapił błąd z bazą danych!");
+            systemExit();
+        }
+    }
+    
+    private void showInfoScene(String info, String desc){
+        this.infoPanelLabelInfo.setText(info);
+        this.infoPanelLabelDesc.setText(desc);
+        changeScene("info");
+    }
+    
+    private void showBalanceScene(){
+        this.balancePanelLabelBalance.setText(this.account.saldo.toString() + " zł");
+        changeScene("balance");
+    }
+    
+    private void showWithdraw2Scene(BigDecimal x){
         
     }
     
@@ -216,8 +273,112 @@ public class MainJFrame extends javax.swing.JFrame {
         System.exit(0);
     }
     
+    private void changeScene(String name){
+        CardLayout cl = (CardLayout) this.mainPanel.getLayout();
+        cl.show(this.mainPanel, name);
+    }
+    
     private void initScenes(){
         
+        // INFO SCENE CONFIG
+        infoPanelLabelInfo = new javax.swing.JLabel();
+        infoPanelLabelDesc = new javax.swing.JLabel();
+        infoPanelBtnEnd = new javax.swing.JButton();
+        infoPanel = new javax.swing.JPanel();
+        infoPanelLabelInfo.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        infoPanelLabelInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoPanelLabelInfo.setText("Informacja");
+        infoPanelLabelDesc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoPanelLabelDesc.setText("Opis");
+        infoPanelBtnEnd.setText("Zakończ");
+        javax.swing.GroupLayout infoPanelLayout = new javax.swing.GroupLayout(infoPanel);
+        infoPanel.setLayout(infoPanelLayout);
+        infoPanelLayout.setHorizontalGroup(
+            infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(infoPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(infoPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(infoPanelBtnEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(infoPanelLabelDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(infoPanelLabelInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        infoPanelLayout.setVerticalGroup(
+            infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(infoPanelLayout.createSequentialGroup()
+                .addGap(98, 98, 98)
+                .addComponent(infoPanelLabelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(infoPanelLabelDesc)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
+                .addComponent(infoPanelBtnEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        infoPanelBtnEnd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                systemExit();
+            }
+        });
+        
+        // BALANCE SCENE CONFIG
+        balancePanel = new javax.swing.JPanel();
+        balancePanelLabelTitle = new javax.swing.JLabel();
+        balancePanelLabelBalance = new javax.swing.JLabel();
+        balancePanelBtnEnd = new javax.swing.JButton();
+        balancePanelBtnContinue = new javax.swing.JButton();
+        balancePanelLabelTitle.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        balancePanelLabelTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        balancePanelLabelTitle.setText("Dostępne saldo na koncie:");
+        balancePanelBtnEnd.setText("Zakończ");
+        balancePanelLabelBalance.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        balancePanelLabelBalance.setText("100.0 zł");
+        balancePanelBtnContinue.setText("Kontynuuj");
+        javax.swing.GroupLayout balancePanelLayout = new javax.swing.GroupLayout(balancePanel);
+        balancePanel.setLayout(balancePanelLayout);
+        balancePanelLayout.setHorizontalGroup(
+            balancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(balancePanelLayout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(balancePanelLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(balancePanelLabelBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, balancePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(balancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(balancePanelBtnContinue, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(balancePanelBtnEnd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        balancePanelLayout.setVerticalGroup(
+            balancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(balancePanelLayout.createSequentialGroup()
+                .addGap(130, 130, 130)
+                .addGroup(balancePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(balancePanelLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(balancePanelLabelBalance))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                .addComponent(balancePanelBtnContinue, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(balancePanelBtnEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        balancePanelBtnEnd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                systemExit();
+            }
+        });
+         balancePanelBtnContinue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                changeScene("index");
+            }
+        });
+
         // LOGIN SCENE CONFIG
         loginPanelLabelKonto = new javax.swing.JLabel();
         loginPanelTextFieldKonto = new javax.swing.JTextField();
@@ -225,7 +386,6 @@ public class MainJFrame extends javax.swing.JFrame {
         loginPanelTextFieldPIN = new javax.swing.JTextField();
         loginPanelLoginBtn = new javax.swing.JButton();
         loginPanel = new javax.swing.JPanel();
-        
         loginPanel.setName("");
         loginPanelLabelKonto.setFont(new java.awt.Font("Segoe UI", 0, 18));
         loginPanelLabelKonto.setText("Nr karty");
@@ -292,7 +452,7 @@ public class MainJFrame extends javax.swing.JFrame {
         indexPanelBtnWplata.setText("Wpłata gotówki");
         indexPanelBtnSaldo.setText("Sprawdź saldo");
         indexPanelBtnDoladowanie.setText("Doładowanie SIM");
-        indexPanelBtnAnuluj.setText("Anuluj");
+        indexPanelBtnAnuluj.setText("Zakończ");
         javax.swing.GroupLayout indexPanelLayout = new javax.swing.GroupLayout(indexPanel);
         indexPanel.setLayout(indexPanelLayout);
         indexPanelLayout.setHorizontalGroup(
@@ -340,41 +500,65 @@ public class MainJFrame extends javax.swing.JFrame {
                 systemExit();
             }
         });
+        indexPanelBtnWyplata.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                changeScene("withdraw1");
+            }
+        });
+        indexPanelBtnSaldo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBalanceScene();
+            }
+        });
         
-        // WITHDRAW SCENE CONFIG
-        withdrawPanel1 = new javax.swing.JPanel();
-        withdrawPanel1LabelKwota = new javax.swing.JLabel();
-        withdrawPanel1TextFieldKwota = new javax.swing.JTextField();
-        withdrawPanel1BtnWyplac = new javax.swing.JButton();
-        withdrawPanel1LabelKwota.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        withdrawPanel1LabelKwota.setText("Kwota do wypłaty:");
-        withdrawPanel1TextFieldKwota.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        withdrawPanel1BtnWyplac.setText("Wypłać");
-        javax.swing.GroupLayout withdrawPanel1Layout = new javax.swing.GroupLayout(withdrawPanel1);
-        withdrawPanel1.setLayout(withdrawPanel1Layout);
-        withdrawPanel1Layout.setHorizontalGroup(
-            withdrawPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(withdrawPanel1Layout.createSequentialGroup()
-                .addGap(137, 137, 137)
-                .addGroup(withdrawPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(withdrawPanel1BtnWyplac, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(withdrawPanel1Layout.createSequentialGroup()
-                        .addComponent(withdrawPanel1LabelKwota)
-                        .addGap(18, 18, 18)
-                        .addComponent(withdrawPanel1TextFieldKwota, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        // WITHDRAW1 SCENE CONFIG
+        withdraw1Panel = new javax.swing.JPanel();
+        withdraw1PanelLabelKwota = new javax.swing.JLabel();
+        withdraw1PanelTextFieldKwota = new javax.swing.JTextField();
+        withdraw1PanelBtnNext = new javax.swing.JButton();
+        withdraw1PanelBtnNext.setText("Dalej");
+        withdraw1PanelLabelKwota.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        withdraw1PanelLabelKwota.setText("Kwota do wypłacenia [zł]:");
+        withdraw1PanelTextFieldKwota.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        withdraw1PanelTextFieldKwota.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        javax.swing.GroupLayout withdraw1PanelLayout = new javax.swing.GroupLayout(withdraw1Panel);
+        withdraw1Panel.setLayout(withdraw1PanelLayout);
+        withdraw1PanelLayout.setHorizontalGroup(
+            withdraw1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(withdraw1PanelLayout.createSequentialGroup()
+                .addGap(86, 86, 86)
+                .addComponent(withdraw1PanelLabelKwota)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(withdraw1PanelTextFieldKwota, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, withdraw1PanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(withdraw1PanelBtnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-        withdrawPanel1Layout.setVerticalGroup(
-            withdrawPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, withdrawPanel1Layout.createSequentialGroup()
-                .addContainerGap(169, Short.MAX_VALUE)
-                .addGroup(withdrawPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(withdrawPanel1LabelKwota)
-                    .addComponent(withdrawPanel1TextFieldKwota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
-                .addComponent(withdrawPanel1BtnWyplac)
-                .addGap(137, 137, 137))
+        withdraw1PanelLayout.setVerticalGroup(
+            withdraw1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, withdraw1PanelLayout.createSequentialGroup()
+                .addGap(161, 161, 161)
+                .addGroup(withdraw1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(withdraw1PanelLabelKwota)
+                    .addComponent(withdraw1PanelTextFieldKwota, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                .addComponent(withdraw1PanelBtnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+        limitTextFieldToDigits(withdraw1PanelTextFieldKwota, 5);
+        withdraw1PanelBtnNext.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tryWithdraw();
+            }
+        });
+        
+        // WITHDRAW2 SCENE CONFIG
+        
         
     }
     
