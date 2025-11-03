@@ -3,6 +3,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
@@ -22,9 +24,18 @@ public class MainJFrame extends javax.swing.JFrame {
         this.mainPanel.add(this.indexPanel, "index");
         this.mainPanel.add(this.balancePanel, "balance");
         this.mainPanel.add(this.withdraw1Panel, "withdraw1");
+        this.mainPanel.add(this.withdraw2Panel, "withdraw2");
         
         CardLayout cl = (CardLayout) this.mainPanel.getLayout();
         cl.show(this.mainPanel, "login");
+        
+        int n[] = {500, 200, 100, 50, 20, 10};
+        Map<Integer, Integer> wynik = znajdzKombinacje(270, 4, n);
+        if(wynik != null){
+            wynik.forEach((nominal, ile) -> {
+                System.out.println(nominal + " zł x " + ile);
+            });
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -35,6 +46,11 @@ public class MainJFrame extends javax.swing.JFrame {
         headerPanelLabel = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
         testPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bankomat");
@@ -79,15 +95,51 @@ public class MainJFrame extends javax.swing.JFrame {
 
         testPanel.setName(""); // NOI18N
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setText("Wpłacana kwota [zł]:");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setText("Ilość banknotów:");
+
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jButton1.setText("Dalej");
+
         javax.swing.GroupLayout testPanelLayout = new javax.swing.GroupLayout(testPanel);
         testPanel.setLayout(testPanelLayout);
         testPanelLayout.setHorizontalGroup(
             testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 732, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, testPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(testPanelLayout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         testPanelLayout.setVerticalGroup(
             testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 403, Short.MAX_VALUE)
+            .addGroup(testPanelLayout.createSequentialGroup()
+                .addContainerGap(147, Short.MAX_VALUE)
+                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(138, 138, 138)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -155,10 +207,12 @@ public class MainJFrame extends javax.swing.JFrame {
     }
     
     private javax.swing.JPanel loginPanel;
-    private javax.swing.JButton loginPanelLoginBtn;
-    private javax.swing.JLabel loginPanelLabelKonto;
-    private javax.swing.JLabel loginPanelLabelPin;
-    private javax.swing.JTextField loginPanelTextFieldKonto;
+    private javax.swing.JButton loginPanelBtnNext;
+    private javax.swing.JButton loginPanelBtnEnd;
+    private javax.swing.JLabel loginPanelLabelTitle;
+    private javax.swing.JLabel loginPanelLabelNr;
+    private javax.swing.JLabel loginPanelLabelPIN;
+    private javax.swing.JTextField loginPanelTextFieldNr;
     private javax.swing.JTextField loginPanelTextFieldPIN;
     
     private javax.swing.JPanel indexPanel;
@@ -174,6 +228,13 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton withdraw1PanelBtnNext;
     private javax.swing.JLabel withdraw1PanelLabelKwota;
     private javax.swing.JTextField withdraw1PanelTextFieldKwota;
+    
+    private javax.swing.JPanel withdraw2Panel;
+    private javax.swing.JButton withdraw2PanelBtnEnd;
+    private javax.swing.JLabel withdraw2PanelLabelCaption;
+    private javax.swing.JLabel withdraw2PanelLabelTitle;
+    private javax.swing.JScrollPane withdraw2PanelScrollPaneKwota;
+    private javax.swing.JTextArea withdraw2PanelTextAreaKwota;
     
     private javax.swing.JPanel infoPanel;
     private javax.swing.JButton infoPanelBtnEnd;
@@ -227,8 +288,12 @@ public class MainJFrame extends javax.swing.JFrame {
     private void tryWithdraw(){
         String s = this.withdraw1PanelTextFieldKwota.getText();
         BigDecimal x = new BigDecimal(s);
-        if(s.length() == 0 || x.compareTo(new BigDecimal("0")) == 0){
+        if(s.length() == 0 || x.intValue() == 0){
             JOptionPane.showMessageDialog(this, "Podaj poprawną kwotę!");
+            return;
+        }
+        if(x.intValue() % 10 != 0){
+            JOptionPane.showMessageDialog(this, "Kwota musi być podzielna przez 10!");
             return;
         }
         if(x.compareTo(this.account.saldo) > 0){
@@ -242,7 +307,7 @@ public class MainJFrame extends javax.swing.JFrame {
             ps.setBigDecimal(1, x);
             ps.setString(2, this.account.nr_konta);
             if(ps.executeUpdate() > 0){
-                showWithdraw2Scene(x);
+                showWithdraw2Scene(x.intValue());
             } else {
                 showInfoScene("Nie udalo sie wyplacic z konta!", "Blad aktualizacji danych!");
             }
@@ -264,8 +329,17 @@ public class MainJFrame extends javax.swing.JFrame {
         changeScene("balance");
     }
     
-    private void showWithdraw2Scene(BigDecimal x){
-        
+    private void showWithdraw2Scene(int x){
+        withdraw2PanelTextAreaKwota.setText("");
+        int t = x;
+        int cash[] = {500, 200, 100, 50, 20, 10};
+        for(int i=0; i<cash.length; i++){
+            int n = x / cash[i];
+            withdraw2PanelTextAreaKwota.append(cash[i] + " zł * " + n + " = " + cash[i] * n + "\n");
+            x -= cash[i]* n;
+        }
+        withdraw2PanelTextAreaKwota.append("\nRazem " + t + " zł.\n");
+        changeScene("withdraw2");
     }
     
     private void systemExit(){
@@ -380,58 +454,84 @@ public class MainJFrame extends javax.swing.JFrame {
         });
 
         // LOGIN SCENE CONFIG
-        loginPanelLabelKonto = new javax.swing.JLabel();
-        loginPanelTextFieldKonto = new javax.swing.JTextField();
-        loginPanelLabelPin = new javax.swing.JLabel();
+        loginPanelLabelTitle = new javax.swing.JLabel();
+        loginPanelLabelNr = new javax.swing.JLabel();
+        loginPanelTextFieldNr = new javax.swing.JTextField();
+        loginPanelLabelPIN = new javax.swing.JLabel();
         loginPanelTextFieldPIN = new javax.swing.JTextField();
-        loginPanelLoginBtn = new javax.swing.JButton();
+        loginPanelBtnNext = new javax.swing.JButton();
+        loginPanelBtnEnd = new javax.swing.JButton();
         loginPanel = new javax.swing.JPanel();
-        loginPanel.setName("");
-        loginPanelLabelKonto.setFont(new java.awt.Font("Segoe UI", 0, 18));
-        loginPanelLabelKonto.setText("Nr karty");
-        loginPanelTextFieldKonto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        loginPanelTextFieldKonto.setFont(new java.awt.Font("Segoe UI", 0, 18));
-        loginPanelLabelPin.setFont(new java.awt.Font("Segoe UI", 0, 18));
-        loginPanelLabelPin.setText("PIN karty:");
+        loginPanelBtnNext.setText("Dalej");
+        loginPanelBtnEnd.setText("Zakończ");
+        loginPanelLabelNr.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        loginPanelLabelNr.setText("Nr karty:");
+        loginPanelLabelPIN.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        loginPanelLabelPIN.setText("PIN:");
+        loginPanelTextFieldNr.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        loginPanelTextFieldNr.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        loginPanelTextFieldNr.setText("1111222233334444");
+        loginPanelTextFieldPIN.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         loginPanelTextFieldPIN.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        loginPanelTextFieldPIN.setFont(new java.awt.Font("Segoe UI", 0, 18));
-        loginPanelLoginBtn.setText("Zaloguj");
+        loginPanelTextFieldPIN.setText("0000");
+        loginPanelLabelTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        loginPanelLabelTitle.setText("Witaj w SPEUROBANK!");
         javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
         loginPanel.setLayout(loginPanelLayout);
         loginPanelLayout.setHorizontalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPanelLayout.createSequentialGroup()
-                .addGap(179, 179, 179)
-                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(loginPanelLabelKonto)
-                    .addComponent(loginPanelTextFieldKonto, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loginPanelLabelPin)
-                    .addComponent(loginPanelTextFieldPIN, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loginPanelLoginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(206, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(loginPanelBtnEnd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(loginPanelBtnNext, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+            .addGroup(loginPanelLayout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(loginPanelLabelTitle)
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(loginPanelLabelNr)
+                            .addComponent(loginPanelLabelPIN))
+                        .addGap(18, 18, 18)
+                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(loginPanelTextFieldNr, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(loginPanelTextFieldPIN, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         loginPanelLayout.setVerticalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPanelLayout.createSequentialGroup()
-                .addGap(94, 94, 94)
-                .addComponent(loginPanelLabelKonto)
+                .addContainerGap(103, Short.MAX_VALUE)
+                .addComponent(loginPanelLabelTitle)
+                .addGap(34, 34, 34)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(loginPanelLabelNr)
+                    .addComponent(loginPanelTextFieldNr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(loginPanelTextFieldKonto, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(loginPanelLabelPin)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(loginPanelLabelPIN)
+                    .addComponent(loginPanelTextFieldPIN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(81, 81, 81)
+                .addComponent(loginPanelBtnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(loginPanelTextFieldPIN, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(loginPanelLoginBtn)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addComponent(loginPanelBtnEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-        loginPanelLoginBtn.addActionListener(new ActionListener() {
+        loginPanelBtnNext.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                validateCard(loginPanelTextFieldKonto.getText(), loginPanelTextFieldPIN.getText());
+                validateCard(loginPanelTextFieldNr.getText(), loginPanelTextFieldPIN.getText());
             }
         });
-        limitTextFieldToDigits(loginPanelTextFieldKonto, 16);
+        loginPanelBtnEnd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                systemExit();
+            }
+        });
+        limitTextFieldToDigits(loginPanelTextFieldNr, 16);
         limitTextFieldToDigits(loginPanelTextFieldPIN, 4);
         
         
@@ -549,7 +649,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addComponent(withdraw1PanelBtnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        limitTextFieldToDigits(withdraw1PanelTextFieldKwota, 5);
+        limitTextFieldToDigits(withdraw1PanelTextFieldKwota, 6);
         withdraw1PanelBtnNext.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -558,7 +658,65 @@ public class MainJFrame extends javax.swing.JFrame {
         });
         
         // WITHDRAW2 SCENE CONFIG
-        
+        withdraw2Panel = new javax.swing.JPanel();
+        withdraw2PanelLabelTitle = new javax.swing.JLabel();
+        withdraw2PanelScrollPaneKwota = new javax.swing.JScrollPane();
+        withdraw2PanelTextAreaKwota = new javax.swing.JTextArea();
+        withdraw2PanelBtnEnd = new javax.swing.JButton();
+        withdraw2PanelLabelCaption = new javax.swing.JLabel();
+        withdraw2PanelLabelTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        withdraw2PanelLabelTitle.setText("Wypłacona gotówka:");
+        withdraw2PanelScrollPaneKwota.setBorder(null);
+        withdraw2PanelTextAreaKwota.setEditable(false);
+        withdraw2PanelTextAreaKwota.setBackground(new java.awt.Color(0,0,0,0));
+        withdraw2PanelTextAreaKwota.setColumns(20);
+        withdraw2PanelTextAreaKwota.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        withdraw2PanelTextAreaKwota.setRows(5);
+        withdraw2PanelTextAreaKwota.setText("500 * 2 = 1000\n100 * 3 = 300\n\nRazem 1300");
+        withdraw2PanelTextAreaKwota.setBorder(null);
+        withdraw2PanelTextAreaKwota.setFocusable(false);
+        withdraw2PanelScrollPaneKwota.setViewportView(withdraw2PanelTextAreaKwota);
+        withdraw2PanelBtnEnd.setText("Zakończ");
+        withdraw2PanelLabelCaption.setText("Dziękujemy za korzystanie z naszych usług");
+        javax.swing.GroupLayout withdraw2PanelLayout = new javax.swing.GroupLayout(withdraw2Panel);
+        withdraw2Panel.setLayout(withdraw2PanelLayout);
+        withdraw2PanelLayout.setHorizontalGroup(
+            withdraw2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(withdraw2PanelLayout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addGroup(withdraw2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(withdraw2PanelLayout.createSequentialGroup()
+                        .addGroup(withdraw2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(withdraw2PanelScrollPaneKwota, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(withdraw2PanelLayout.createSequentialGroup()
+                                .addComponent(withdraw2PanelLabelTitle)
+                                .addGap(99, 99, 99)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(withdraw2PanelLayout.createSequentialGroup()
+                        .addComponent(withdraw2PanelLabelCaption)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(withdraw2PanelBtnEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        withdraw2PanelLayout.setVerticalGroup(
+            withdraw2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(withdraw2PanelLayout.createSequentialGroup()
+                .addGap(94, 94, 94)
+                .addComponent(withdraw2PanelLabelTitle)
+                .addGap(18, 18, 18)
+                .addComponent(withdraw2PanelScrollPaneKwota, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(withdraw2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(withdraw2PanelBtnEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(withdraw2PanelLabelCaption))
+                .addContainerGap())
+        );
+        withdraw2PanelBtnEnd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                systemExit();
+            }
+        });
         
     }
     
@@ -665,10 +823,42 @@ public class MainJFrame extends javax.swing.JFrame {
         });
     }
     // </editor-fold>
+    
+    public static Map<Integer, Integer> znajdzKombinacje(int kwota, int iloscBanknotow, int[] nominaly) {
+        Map<Integer, Integer> wynik = new LinkedHashMap<>();
+        for (int n : nominaly) wynik.put(n, 0); // inicjalizacja
+
+        if (szukajKombinacje(kwota, iloscBanknotow, 0, nominaly, wynik))
+            return wynik;
+        return null;
+    }
+
+    private static boolean szukajKombinacje(int kwota, int iloscBanknotow, int index, int[] nominaly, Map<Integer, Integer> wynik) {
+        if (kwota == 0 && iloscBanknotow == 0) return true;
+        if (kwota < 0 || iloscBanknotow < 0 || index >= nominaly.length) return false;
+
+        int nom = nominaly[index];
+        int maxIle = Math.min(kwota / nom, iloscBanknotow);
+
+        // próbuj wszystkich możliwych ilości tego nominału
+        for (int i = maxIle; i >= 0; i--) {
+            wynik.put(nom, i);
+            if (szukajKombinacje(kwota - i * nom, iloscBanknotow - i, index + 1, nominaly, wynik))
+                return true;
+        }
+
+        wynik.put(nom, 0);
+        return false;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel headerPanel;
     private javax.swing.JLabel headerPanelLabel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel testPanel;
     // End of variables declaration//GEN-END:variables
