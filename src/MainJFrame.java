@@ -25,17 +25,12 @@ public class MainJFrame extends javax.swing.JFrame {
         this.mainPanel.add(this.balancePanel, "balance");
         this.mainPanel.add(this.withdraw1Panel, "withdraw1");
         this.mainPanel.add(this.withdraw2Panel, "withdraw2");
+        this.mainPanel.add(this.deposit1Panel, "deposit1");
+        this.mainPanel.add(this.deposit2Panel, "deposit2");
         
         CardLayout cl = (CardLayout) this.mainPanel.getLayout();
         cl.show(this.mainPanel, "login");
         
-        int n[] = {500, 200, 100, 50, 20, 10};
-        Map<Integer, Integer> wynik = znajdzKombinacje(270, 4, n);
-        if(wynik != null){
-            wynik.forEach((nominal, ile) -> {
-                System.out.println(nominal + " zł x " + ile);
-            });
-        }
     }
 
     @SuppressWarnings("unchecked")
@@ -46,10 +41,11 @@ public class MainJFrame extends javax.swing.JFrame {
         headerPanelLabel = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
         testPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -95,15 +91,23 @@ public class MainJFrame extends javax.swing.JFrame {
 
         testPanel.setName(""); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setText("Wpłacana kwota [zł]:");
+        jList1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "T-Mobile", "Orange", "Virgin Mobile", "Play", "Plus" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jScrollPane1.setViewportView(jList1);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setText("Ilość banknotów:");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setText("Wybierz operatora");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel2.setText("Podaj kwotę doładowania");
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jButton1.setText("Dalej");
 
@@ -111,34 +115,38 @@ public class MainJFrame extends javax.swing.JFrame {
         testPanel.setLayout(testPanelLayout);
         testPanelLayout.setHorizontalGroup(
             testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(testPanelLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46)
+                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, testPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(testPanelLayout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         testPanelLayout.setVerticalGroup(
             testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(testPanelLayout.createSequentialGroup()
-                .addContainerGap(147, Short.MAX_VALUE)
-                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(138, 138, 138)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(testPanelLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(158, 158, 158))
+                    .addGroup(testPanelLayout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -247,6 +255,20 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel balancePanelLabelBalance;
     private javax.swing.JLabel balancePanelLabelTitle;
     
+    private javax.swing.JPanel deposit1Panel;
+    private javax.swing.JButton deposit1PanelBtnNext;
+    private javax.swing.JLabel deposit1PanelLabelIlosc;
+    private javax.swing.JLabel deposit1PanelLabelKwota;
+    private javax.swing.JTextField deposit1PanelTextFieldIlosc;
+    private javax.swing.JTextField deposit1PanelTextFieldKwota;
+    
+    private javax.swing.JPanel deposit2Panel;
+    private javax.swing.JButton deposit2PanelBtnAccept;
+    private javax.swing.JButton deposit2PanelBtnCancel;
+    private javax.swing.JScrollPane deposit2PanelScrollPaneDesc;
+    private javax.swing.JTextArea deposit2PanelTextAreaDesc;
+    private javax.swing.JLabel deposit2PanelTitle;
+    
     private BankAccount account;
     
     private void validateCard(String nrKarty, String pin) {
@@ -318,6 +340,26 @@ public class MainJFrame extends javax.swing.JFrame {
         }
     }
     
+    private void tryDeposit(){
+        String k = this.deposit1PanelTextFieldKwota.getText();
+        BigDecimal x = new BigDecimal(k);
+        String sql = "UPDATE konta SET saldo = saldo + ?  WHERE nr_konta = ?";
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:./bank", "sa", "");
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setBigDecimal(1, x);
+            ps.setString(2, this.account.nr_konta);
+            if(ps.executeUpdate() > 0){
+                showInfoScene("Operacja udana!", "Pieniądze wpłyneły na twoje konto!");
+            } else {
+                showInfoScene("Nie udalo sie wplacic pieniedzy na konto!", "Blad aktualizacji danych!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Wystapił błąd z bazą danych!");
+            systemExit();
+        }
+    }
+    
     private void showInfoScene(String info, String desc){
         this.infoPanelLabelInfo.setText(info);
         this.infoPanelLabelDesc.setText(desc);
@@ -340,6 +382,42 @@ public class MainJFrame extends javax.swing.JFrame {
         }
         withdraw2PanelTextAreaKwota.append("\nRazem " + t + " zł.\n");
         changeScene("withdraw2");
+    }
+    
+    private void showDeposit2Scene(){
+        String k = this.deposit1PanelTextFieldKwota.getText();
+        String i = this.deposit1PanelTextFieldIlosc.getText();
+        BigDecimal xk = new BigDecimal(k);
+        BigDecimal xi = new BigDecimal(i);
+        if(k.length() == 0 || xk.intValue() == 0){
+            JOptionPane.showMessageDialog(this, "Podaj poprawną kwotę!");
+            return;
+        }
+        if(i.length() == 0 || xi.intValue() == 0){
+            JOptionPane.showMessageDialog(this, "Podaj poprawną ilosc!");
+            return;
+        }
+        if(xk.intValue() % 10 != 0){
+            JOptionPane.showMessageDialog(this, "Nie mozna wplacic kwoty niepodzielnej przez 10!");
+            return;
+        }
+        
+        int n[] = {500, 200, 100, 50, 20, 10};
+        Map<Integer, Integer> kombinacja = znajdzKombinacje(xk.intValue(), xi.intValue(), n);
+        if(kombinacja == null){
+            JOptionPane.showMessageDialog(this, "Nie ma takiej kombinacji banknotow!\nWprowadz poprawne dane");
+            return;
+        }
+        
+        deposit2PanelTextAreaDesc.setText("");
+        for (Map.Entry<Integer, Integer> entry : kombinacja.entrySet()) {
+            Integer nominal = entry.getKey();
+            Integer ilosc = entry.getValue();
+            deposit2PanelTextAreaDesc.append(nominal + " zł * " + ilosc + " = " + (nominal * ilosc) + " zł\n");
+        }
+        deposit2PanelTextAreaDesc.append("\nRazem " + k + " zł.\n");
+        changeScene("deposit2");
+        
     }
     
     private void systemExit(){
@@ -612,6 +690,12 @@ public class MainJFrame extends javax.swing.JFrame {
                 showBalanceScene();
             }
         });
+        indexPanelBtnWplata.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                changeScene("deposit1");
+            }
+        });
         
         // WITHDRAW1 SCENE CONFIG
         withdraw1Panel = new javax.swing.JPanel();
@@ -715,6 +799,129 @@ public class MainJFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 systemExit();
+            }
+        });
+        
+        // DEPOSIT1 SCENE CONFIG
+        deposit1Panel = new javax.swing.JPanel();
+        deposit1PanelLabelKwota = new javax.swing.JLabel();
+        deposit1PanelLabelIlosc = new javax.swing.JLabel();
+        deposit1PanelTextFieldKwota = new javax.swing.JTextField();
+        deposit1PanelTextFieldIlosc = new javax.swing.JTextField();
+        deposit1PanelBtnNext = new javax.swing.JButton();
+        deposit1PanelLabelKwota.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        deposit1PanelLabelKwota.setText("Wpłacana kwota [zł]:");
+        deposit1PanelLabelIlosc.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        deposit1PanelLabelIlosc.setText("Ilość banknotów:");
+        deposit1PanelTextFieldKwota.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        deposit1PanelTextFieldIlosc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        deposit1PanelTextFieldIlosc.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        deposit1PanelBtnNext.setText("Dalej");
+        javax.swing.GroupLayout deposit1PanelLayout = new javax.swing.GroupLayout(deposit1Panel);
+        deposit1Panel.setLayout(deposit1PanelLayout);
+        deposit1PanelLayout.setHorizontalGroup(
+            deposit1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, deposit1PanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(deposit1PanelBtnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(deposit1PanelLayout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addGroup(deposit1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(deposit1PanelLabelKwota)
+                    .addComponent(deposit1PanelLabelIlosc))
+                .addGap(18, 18, 18)
+                .addGroup(deposit1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(deposit1PanelTextFieldKwota, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deposit1PanelTextFieldIlosc, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        deposit1PanelLayout.setVerticalGroup(
+            deposit1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deposit1PanelLayout.createSequentialGroup()
+                .addContainerGap(147, Short.MAX_VALUE)
+                .addGroup(deposit1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(deposit1PanelLabelKwota)
+                    .addComponent(deposit1PanelTextFieldKwota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(deposit1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(deposit1PanelLabelIlosc)
+                    .addComponent(deposit1PanelTextFieldIlosc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(138, 138, 138)
+                .addComponent(deposit1PanelBtnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        limitTextFieldToDigits(deposit1PanelTextFieldKwota, 6);
+        limitTextFieldToDigits(deposit1PanelTextFieldIlosc, 3);
+        deposit1PanelBtnNext.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showDeposit2Scene();
+            }
+        });
+        
+        // DEPOSIT2 SCENE CONFIG
+        deposit2Panel = new javax.swing.JPanel();
+        deposit2PanelTitle = new javax.swing.JLabel();
+        deposit2PanelScrollPaneDesc = new javax.swing.JScrollPane();
+        deposit2PanelTextAreaDesc = new javax.swing.JTextArea();
+        deposit2PanelBtnCancel = new javax.swing.JButton();
+        deposit2PanelBtnAccept = new javax.swing.JButton();
+        deposit2PanelTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        deposit2PanelTitle.setText("Rozpoznane banknoty");
+        deposit2PanelScrollPaneDesc.setBorder(null);
+        deposit2PanelTextAreaDesc.setEditable(false);
+        deposit2PanelTextAreaDesc.setBackground(new java.awt.Color(0,0,0,0));
+        deposit2PanelTextAreaDesc.setColumns(20);
+        deposit2PanelTextAreaDesc.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        deposit2PanelTextAreaDesc.setRows(5);
+        deposit2PanelTextAreaDesc.setText("500 zł * 2 = 1000 zł\n10 zł * 3 = 30 zł\n\nRazem 1030 zł");
+        deposit2PanelTextAreaDesc.setBorder(null);
+        deposit2PanelTextAreaDesc.setFocusable(false);
+        deposit2PanelScrollPaneDesc.setViewportView(deposit2PanelTextAreaDesc);
+        deposit2PanelBtnCancel.setText("Anuluj");
+        deposit2PanelBtnAccept.setText("Akceptuj");
+        javax.swing.GroupLayout deposit2PanelLayout = new javax.swing.GroupLayout(deposit2Panel);
+        deposit2Panel.setLayout(deposit2PanelLayout);
+        deposit2PanelLayout.setHorizontalGroup(
+            deposit2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deposit2PanelLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(deposit2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(deposit2PanelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deposit2PanelScrollPaneDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(deposit2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(deposit2PanelBtnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deposit2PanelBtnAccept, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        deposit2PanelLayout.setVerticalGroup(
+            deposit2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(deposit2PanelLayout.createSequentialGroup()
+                .addGroup(deposit2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(deposit2PanelLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(deposit2PanelBtnAccept, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deposit2PanelBtnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(deposit2PanelLayout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(deposit2PanelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deposit2PanelScrollPaneDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        deposit2PanelBtnAccept.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tryDeposit();
+            }
+        });
+        deposit2PanelBtnCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showInfoScene("Operacja anulowana", "Wpłata została anulowana. Saldo nie zostało zaktualizowane");
             }
         });
         
@@ -857,8 +1064,9 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel testPanel;
     // End of variables declaration//GEN-END:variables
