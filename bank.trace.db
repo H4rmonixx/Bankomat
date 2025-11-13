@@ -1,8 +1,0 @@
-2025-10-27 13:20:35.297600+01:00 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "SELECT k.nr_konta, kont.saldo, kont.pesel kl[*].imie, kl.nazwisko FROM (karty k INNER JOIN JOIN konta kont ON k.nr_konta = kont.nr_konta) INNER JOIN klienci kl ON kont.pesel = kl.pesel WHERE k.nr_karty = ? AND k.pin = ?"
-Syntax error in SQL statement "SELECT k.nr_konta, kont.saldo, kont.pesel kl[*].imie, kl.nazwisko FROM (karty k INNER JOIN JOIN konta kont ON k.nr_konta = kont.nr_konta) INNER JOIN klienci kl ON kont.pesel = kl.pesel WHERE k.nr_karty = ? AND k.pin = ?"; SQL statement:
-SELECT k.nr_konta, kont.saldo, kont.pesel kl.imie, kl.nazwisko FROM (karty k INNER JOIN JOIN konta kont ON k.nr_konta = kont.nr_konta) INNER JOIN klienci kl ON kont.pesel = kl.pesel WHERE k.nr_karty = ? AND k.pin = ? [42000-240]
-2025-10-27 13:22:20.586556+01:00 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "SELECT k.nr_konta, kont.saldo, kont.pesel, kl.imie, kl.nazwisko FROM (karty k INNER JOIN [*]JOIN konta kont ON k.nr_konta = kont.nr_konta) INNER JOIN klienci kl ON kont.pesel = kl.pesel WHERE k.nr_karty = ? AND k.pin = ?"; oczekiwano "identifier"
-Syntax error in SQL statement "SELECT k.nr_konta, kont.saldo, kont.pesel, kl.imie, kl.nazwisko FROM (karty k INNER JOIN [*]JOIN konta kont ON k.nr_konta = kont.nr_konta) INNER JOIN klienci kl ON kont.pesel = kl.pesel WHERE k.nr_karty = ? AND k.pin = ?"; expected "identifier"; SQL statement:
-SELECT k.nr_konta, kont.saldo, kont.pesel, kl.imie, kl.nazwisko FROM (karty k INNER JOIN JOIN konta kont ON k.nr_konta = kont.nr_konta) INNER JOIN klienci kl ON kont.pesel = kl.pesel WHERE k.nr_karty = ? AND k.pin = ? [42001-240]

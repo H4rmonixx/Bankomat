@@ -27,6 +27,7 @@ public class MainJFrame extends javax.swing.JFrame {
         this.mainPanel.add(this.withdraw2Panel, "withdraw2");
         this.mainPanel.add(this.deposit1Panel, "deposit1");
         this.mainPanel.add(this.deposit2Panel, "deposit2");
+        this.mainPanel.add(this.simPanel, "sim");
         
         CardLayout cl = (CardLayout) this.mainPanel.getLayout();
         cl.show(this.mainPanel, "login");
@@ -40,13 +41,6 @@ public class MainJFrame extends javax.swing.JFrame {
         headerPanel = new javax.swing.JPanel();
         headerPanelLabel = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
-        testPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bankomat");
@@ -86,68 +80,7 @@ public class MainJFrame extends javax.swing.JFrame {
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 402, Short.MAX_VALUE)
-        );
-
-        testPanel.setName(""); // NOI18N
-
-        jList1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "T-Mobile", "Orange", "Virgin Mobile", "Play", "Plus" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        jScrollPane1.setViewportView(jList1);
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setText("Wybierz operatora");
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel2.setText("Podaj kwotę doładowania");
-
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        jButton1.setText("Dalej");
-
-        javax.swing.GroupLayout testPanelLayout = new javax.swing.GroupLayout(testPanel);
-        testPanel.setLayout(testPanelLayout);
-        testPanelLayout.setHorizontalGroup(
-            testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(testPanelLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46)
-                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, testPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        testPanelLayout.setVerticalGroup(
-            testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(testPanelLayout.createSequentialGroup()
-                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(testPanelLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(158, 158, 158))
-                    .addGroup(testPanelLayout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)))
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGap(0, 440, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -158,8 +91,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(headerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(testPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -169,9 +101,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(testPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mainPanel.getAccessibleContext().setAccessibleName("");
@@ -269,6 +199,17 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea deposit2PanelTextAreaDesc;
     private javax.swing.JLabel deposit2PanelTitle;
     
+    private javax.swing.JPanel simPanel;
+    private javax.swing.JButton simPanelBtnNext;
+    private javax.swing.JLabel simPanelLabel48;
+    private javax.swing.JLabel simPanelLabelKwota;
+    private javax.swing.JLabel simPanelLabelNr;
+    private javax.swing.JLabel simPanelLabelOperator;
+    private javax.swing.JList<String> simPanelListOperator;
+    private javax.swing.JScrollPane simPanelScrollPaneOperator;
+    private javax.swing.JTextField simPanelTextFieldKwota;
+    private javax.swing.JTextField simPanelTextFieldNr;
+    
     private BankAccount account;
     
     private void validateCard(String nrKarty, String pin) {
@@ -309,8 +250,12 @@ public class MainJFrame extends javax.swing.JFrame {
     
     private void tryWithdraw(){
         String s = this.withdraw1PanelTextFieldKwota.getText();
+        if(s.length() == 0){
+            JOptionPane.showMessageDialog(this, "Podaj poprawną kwotę!");
+            return;
+        }
         BigDecimal x = new BigDecimal(s);
-        if(s.length() == 0 || x.intValue() == 0){
+        if(x.intValue() == 0){
             JOptionPane.showMessageDialog(this, "Podaj poprawną kwotę!");
             return;
         }
@@ -342,7 +287,15 @@ public class MainJFrame extends javax.swing.JFrame {
     
     private void tryDeposit(){
         String k = this.deposit1PanelTextFieldKwota.getText();
+        if(k.length() == 0){
+            JOptionPane.showMessageDialog(this, "Podaj poprawną kwotę!");
+            return;
+        }
         BigDecimal x = new BigDecimal(k);
+        if(x.intValue() == 0){
+            JOptionPane.showMessageDialog(this, "Podaj poprawną kwotę!");
+            return;
+        }
         String sql = "UPDATE konta SET saldo = saldo + ?  WHERE nr_konta = ?";
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./bank", "sa", "");
             PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -352,6 +305,48 @@ public class MainJFrame extends javax.swing.JFrame {
                 showInfoScene("Operacja udana!", "Pieniądze wpłyneły na twoje konto!");
             } else {
                 showInfoScene("Nie udalo sie wplacic pieniedzy na konto!", "Blad aktualizacji danych!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Wystapił błąd z bazą danych!");
+            systemExit();
+        }
+    }
+    
+    private void trySim(){
+        if(this.simPanelListOperator.getSelectedIndex() < 0){
+            JOptionPane.showMessageDialog(this, "Wybierz swojego operatora!");
+            return;
+        }
+        String nr = this.simPanelTextFieldNr.getText();
+        if(nr.length() != 9){
+            JOptionPane.showMessageDialog(this, "Podaj poprawny nr telefonu!");
+            return;
+        }
+        String s = this.simPanelTextFieldKwota.getText();
+        if(s.length() == 0){
+            JOptionPane.showMessageDialog(this, "Podaj poprawną kwotę!");
+            return;
+        }
+        BigDecimal x = new BigDecimal(s);
+        if(x.intValue() == 0){
+            JOptionPane.showMessageDialog(this, "Podaj poprawną kwotę!");
+            return;
+        }
+        if(x.compareTo(this.account.saldo) > 0){
+            showInfoScene("Nie udalo sie doładować SIM!", "Podana kwota przekracza twoje saldo!");
+            return;
+        }
+        
+        String sql = "UPDATE konta SET saldo = saldo - ?  WHERE nr_konta = ?";
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:./bank", "sa", "");
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setBigDecimal(1, x);
+            ps.setString(2, this.account.nr_konta);
+            if(ps.executeUpdate() > 0){
+                showInfoScene("Doladowano karte SIM", "Dziekujemy za korzystanie z naszych usług");
+            } else {
+                showInfoScene("Nie udalo doładować SIM!", "Blad aktualizacji danych!");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -387,13 +382,21 @@ public class MainJFrame extends javax.swing.JFrame {
     private void showDeposit2Scene(){
         String k = this.deposit1PanelTextFieldKwota.getText();
         String i = this.deposit1PanelTextFieldIlosc.getText();
-        BigDecimal xk = new BigDecimal(k);
-        BigDecimal xi = new BigDecimal(i);
-        if(k.length() == 0 || xk.intValue() == 0){
+        if(k.length() == 0){
             JOptionPane.showMessageDialog(this, "Podaj poprawną kwotę!");
             return;
         }
-        if(i.length() == 0 || xi.intValue() == 0){
+        if(i.length() == 0){
+            JOptionPane.showMessageDialog(this, "Podaj poprawną ilosc!");
+            return;
+        }
+        BigDecimal xk = new BigDecimal(k);
+        BigDecimal xi = new BigDecimal(i);
+        if(xk.intValue() == 0){
+            JOptionPane.showMessageDialog(this, "Podaj poprawną kwotę!");
+            return;
+        }
+        if(xi.intValue() == 0){
             JOptionPane.showMessageDialog(this, "Podaj poprawną ilosc!");
             return;
         }
@@ -696,6 +699,12 @@ public class MainJFrame extends javax.swing.JFrame {
                 changeScene("deposit1");
             }
         });
+        indexPanelBtnDoladowanie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                changeScene("sim");
+            }
+        });
         
         // WITHDRAW1 SCENE CONFIG
         withdraw1Panel = new javax.swing.JPanel();
@@ -925,6 +934,94 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
         
+        // SIM SCENE CONFIG
+        simPanel = new javax.swing.JPanel();
+        simPanelScrollPaneOperator = new javax.swing.JScrollPane();
+        simPanelListOperator = new javax.swing.JList<>();
+        simPanelLabelOperator = new javax.swing.JLabel();
+        simPanelLabelNr = new javax.swing.JLabel();
+        simPanelTextFieldNr = new javax.swing.JTextField();
+        simPanelBtnNext = new javax.swing.JButton();
+        simPanelLabel48 = new javax.swing.JLabel();
+        simPanelLabelKwota = new javax.swing.JLabel();
+        simPanelTextFieldKwota = new javax.swing.JTextField();
+        simPanelListOperator.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        simPanelListOperator.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "T-Mobile", "Orange", "Virgin Mobile", "Play", "Plus" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        simPanelListOperator.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        simPanelScrollPaneOperator.setViewportView(simPanelListOperator);
+        simPanelLabelOperator.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        simPanelLabelOperator.setText("Wybierz operatora");
+        simPanelLabelNr.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        simPanelLabelNr.setText("Numer telefonu:");
+        simPanelTextFieldNr.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        simPanelTextFieldNr.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        simPanelBtnNext.setText("Doładuj");
+        simPanelLabel48.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        simPanelLabel48.setText("+48");
+        simPanelLabelKwota.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        simPanelLabelKwota.setText("Kwota doładowania [zł]");
+        simPanelTextFieldKwota.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        simPanelTextFieldKwota.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        javax.swing.GroupLayout simPanelLayout = new javax.swing.GroupLayout(simPanel);
+        simPanel.setLayout(simPanelLayout);
+        simPanelLayout.setHorizontalGroup(
+            simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(simPanelLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(simPanelLabelOperator, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(simPanelScrollPaneOperator, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46)
+                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(simPanelLabelNr, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                    .addGroup(simPanelLayout.createSequentialGroup()
+                        .addComponent(simPanelLabel48)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(simPanelTextFieldNr))
+                    .addComponent(simPanelLabelKwota)
+                    .addComponent(simPanelTextFieldKwota))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(simPanelBtnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        simPanelLayout.setVerticalGroup(
+            simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(simPanelLayout.createSequentialGroup()
+                .addGap(83, 83, 83)
+                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(simPanelLayout.createSequentialGroup()
+                        .addComponent(simPanelLabelNr, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(simPanelLabel48)
+                            .addComponent(simPanelTextFieldNr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(simPanelLabelKwota)
+                        .addGap(18, 18, 18)
+                        .addComponent(simPanelTextFieldKwota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(simPanelLayout.createSequentialGroup()
+                        .addComponent(simPanelLabelOperator, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(simPanelScrollPaneOperator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addComponent(simPanelBtnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        limitTextFieldToDigits(simPanelTextFieldNr, 9);
+        limitTextFieldToDigits(simPanelTextFieldKwota, 3);
+        simPanelBtnNext.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                trySim();
+            }
+        });
+        
     }
     
     // <editor-fold defaultstate="collapsed" desc="Database create">  
@@ -939,10 +1036,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 try (PreparedStatement ps = conn.prepareStatement("INSERT INTO klienci (pesel, imie, nazwisko) VALUES (?, ?, ?)")) {
                     Object[][] klienci = {
                         {"12345678901", "Jan",    "Kowalski"},
-                        {"23456789012", "Anna",   "Nowak"},
-                        {"34567890123", "Piotr",  "Wiśniewski"},
-                        {"45678901234", "Maria",  "Wójcik"},
-                        {"56789012345", "Tomasz", "Kamiński"}
+                        {"23456789012", "Anna",   "Nowak"}
                     };
                     for (Object[] klient : klienci) {
                         ps.setString(1, (String) klient[0]);
@@ -960,10 +1054,8 @@ public class MainJFrame extends javax.swing.JFrame {
                 try (PreparedStatement ps = conn.prepareStatement("INSERT INTO konta (nr_konta, pesel, saldo) VALUES (?, ?, ?)")) {
                     Object[][] konta = {
                         {"61109010140000071219812874", "12345678901", 2500.00},
-                        {"61109010140000071219812875", "23456789012", 3500.50},
-                        {"61109010140000071219812876", "34567890123", 1500.75},
-                        {"61109010140000071219812877", "45678901234", 4200.00},
-                        {"61109010140000071219812878", "56789012345", 980.20}
+                        {"61109010140000071219800074", "12345678901", 500.00},
+                        {"61109010140000071219812875", "23456789012", 3500.50}
                     };
                     for (Object[] konto : konta) {
                         ps.setString(1, (String) konto[0]);
@@ -981,10 +1073,9 @@ public class MainJFrame extends javax.swing.JFrame {
                 try (PreparedStatement ps = conn.prepareStatement("INSERT INTO karty (nr_karty, nr_konta, pin) VALUES (?, ?, ?)")) {
                     Object[][] karty = {
                         {"1111222233334444", "61109010140000071219812874", "0000"},
+                        {"0000222233330000", "61109010140000071219812874", "1010"},
+                        {"9999999999999999", "61109010140000071219800074", "9999"},
                         {"2222333344445555", "61109010140000071219812875", "1234"},
-                        {"3333444455556666", "61109010140000071219812876", "0000"},
-                        {"4444555566667777", "61109010140000071219812877", "1234"},
-                        {"5555666677778888", "61109010140000071219812878", "1234"}
                     };
 
                     for (Object[] karta : karty) {
@@ -1061,13 +1152,6 @@ public class MainJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel headerPanel;
     private javax.swing.JLabel headerPanelLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JPanel testPanel;
     // End of variables declaration//GEN-END:variables
 }
